@@ -1,0 +1,187 @@
+@startuml
+package oy.interact.tira {
+	skinparam groupInheritance 2
+	left to right direction
+
+	package view {
+	}
+	note top of view
+		View classes not shown for clarity of the diagram.
+	end note
+
+	class TIRACodersApp {
+		+ {static} main(args : [String]) : void
+	}
+
+	package factories {
+		note as N2
+			Factories create objects you implement
+			in 04-TASK, 05-TASK, 07-TASK, 08-TASK.
+		end note
+	}
+
+	package util {
+		interface TIRAContainer<E extends Comparable<E>>
+		interface TIRAKeyedContainer<K extends Comparable<K>, V>
+		interface TIRAKeyedOrderedContainer<K extends Comparable<K>, V>
+		interface Visitable<K extends Comparable<K>,V> <<Visitor>>
+		interface Visitor<K extends Comparable<K>,V> <<Visitor>>
+		class Pair<K extends Comparable<K>,V> {
+			- key: K
+			- value: V
+		}
+		class SimpleContainer<E extends Comparable<E>> {
+			- array : [E]
+			+ <color:Red>sort() : void </color>
+			+ <color:Red>reverse() : void </color>
+			+ <color:Red>get() : E</color>
+			+ <color:Red>indexOf() : int</color>
+			+ <color:Red>findIndex() : int</color>
+			+ <color:Red>find() : E</color>
+		}
+		note bottom of SimpleContainer
+			01-TASK, and later: sort()
+			02-TASK: reverse(), get(), indexOf(), findIndex(), find()
+			03-TASK: indexOf()
+		end note
+		interface SetInterface<K> #pink;line:red
+			note top of SetInterface
+				08-TASK Implement for grade 5 only.
+			end note
+		class SimpleKeyedContainer<K extends Comparable<K>, V> 
+		SimpleContainer ..|> TIRAContainer
+		SimpleKeyedContainer ..|> TIRAKeyedContainer
+		TIRAKeyedOrderedContainer ..|> TIRAKeyedContainer
+		TIRAKeyedOrderedContainer ..|> Visitable
+	}
+
+	package model {
+		class Coder {
+			+ <color:Red>compareTo(another : Coder) : int</color>
+			+ <color:Red>hashCode() : int</color>
+		}
+		note right of Coder
+			01-TASK: compareTo()
+			08-TASK: hashCode()
+		end note
+		class CoderSortOrder {
+			+ <color:Red>getComparator() : Comparator</color>
+		}
+		note bottom of CoderSortOrder
+			02-TASK
+		end note
+		class DurationMeasurement
+		interface MeasurementObserver
+		abstract PhoneBookBase
+		class PhoneBookArray
+		class PhoneBookBST
+		interface PhoneBookModelOberver
+		PhoneBookBase ..> MeasurementObserver : has
+		PhoneBookBase ..> "*" PhoneBookModelOberver : has
+		PhoneBookArray --|> PhoneBookBase
+		PhoneBookBST --|> PhoneBookBase
+		PhoneBookArray *--> SimpleContainer : has
+		PhoneBookArray ..> TIRAContainer
+		PhoneBookBST *--> TIRAKeyedOrderedContainer : has
+		PhoneBookBST ..> CoderSortOrder
+	}
+
+	package student {
+		class Algorithms {
+			+ {static} insertionSort() : void
+			+ {static} reverse() : void
+			+ {static} binarySearch() : void
+			+ {static} fastSort() : void
+		}
+		note top of Algorithms
+			01-TASK, 02-TASK, 03-TASK, 06-TASK
+		end note
+		class Algorithms #pink;line:red
+		class CodeWordsCounter {
+			- <color:Red>countWordsFrom(file : File) : void</color>
+			+ <color:Red>topCodeWords(topCount : int) : Pair<String,Integer> [] </color>
+		}
+		class CoderFullNameComparator #pink;line:red
+		class CoderNameComparator #pink;line:red
+		note "02-TASK" as N1
+		CoderFullNameComparator .. N1
+		N1 .. CoderNameComparator
+		CoderSortOrder ..> CoderFullNameComparator : creates
+		CoderSortOrder ..> CoderNameComparator : creates
+
+		class ParenthesisChecker {
+			+ {static} <color:Red>checkParentheses() : int</color>
+		}
+		note top of ParenthesisChecker
+			04-TASK (Stack)
+		end note
+		class ParenthesesException
+		ParenthesisChecker ..> ParenthesesException : throws
+		class StackImplementation<E> implements util.StackInterface
+		note bottom of StackImplementation
+			04-TASK
+		end note
+		class StackImplementation #pink;line:red
+
+		class QueueImplementation<E> implements util.QueueInterface
+		note top of QueueImplementation
+			05-TASK, implement with an array (grade 1)
+			and with linked list (grade 2) (a <b>LinkedListQueue</b>, and
+			an <b>ArrayQueue</b>).
+		end note
+		class QueueImplementation #pink;line:red
+
+		class BinarySearchTreeContainer #pink;line:red
+		BinarySearchTreeContainer ..|> TIRAKeyedOrderedContainer
+		note top of BinarySearchTreeContainer
+			07-TASK
+		end note
+
+		class SeveralVisitors #pink;line:red
+		SeveralVisitors ..|> Visitor 
+		SeveralVisitors ..> BinarySearchTreeContainer : visits
+		note right of SeveralVisitors
+			07-TASK. <b>Optionally</b> implement tree
+			algorithms using Visitor design pattern.
+			This requires several different
+			visitor classes!
+		end note
+
+		class HashTableContainer implements TIRAKeyedContainer
+		class HashTableContainer #pink;line:red
+		note top of HashTableContainer
+			08-TASK.
+		end note
+		note top of CodeWordsCounter
+			08-TASK (Hashtable)
+		end note
+
+		package graph {
+			enum EdgeType
+			class Edge<T> {
+				- weight: double
+			}
+			class Vertex<T>
+			class Visit<T>
+			class Graph<T> #pink;line:red
+			Edge --> Vertex : source
+			Edge --> Vertex : destination
+			Edge +-- EdgeType
+			Graph "[Vertex]" *--> "*" Edge : edgeList
+			class Graph #pink;line:red
+			note top of Graph
+				09-TASK (Graph) has several algorithms to
+				implement, depending on the grade target you have.
+			end note
+		}
+	}
+
+	TIRACodersApp *--> view : has
+	view ..|> PhoneBookModelOberver
+	TIRACodersApp *--> PhoneBookBase : model
+	class NotYetImplementedException
+	TIRACodersApp ..> NotYetImplementedException : throws
+	TIRACodersApp .down..> factories
+}
+
+@enduml
