@@ -8,12 +8,22 @@ public class Algorithms {
       // nada
    }
 
+   ///////////////////////
+   // Oma swap lol
+   ///////////////////////
+
+   public static <T> void swap(T[] array, int first, int second) {
+      T copyOfFirst = array[first];
+      array[first] = array[second];
+      array[second] = copyOfFirst;
+   }
+   
    ///////////////////////////////////////////
    // Insertion Sort for the whole array
    ///////////////////////////////////////////
 
    public static <T extends Comparable<T>> void insertionSort(T[] array) {
-      // TODO: Implement this.
+      insertionSort(array, 0, array.length);
    }
 
    ///////////////////////////////////////////
@@ -21,7 +31,11 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T extends Comparable<T>> void insertionSort(T[] array, int fromIndex, int toIndex) {
-      // TODO: Implement this.
+      for (int i=fromIndex; i<toIndex; ++i) {
+         for (int j=i; (j>fromIndex) && (array[j-1].compareTo(array[j])>0); --j) {
+            swap(array, j, j-1);
+         }
+      }
    }
 
    //////////////////////////////////////////////////////////
@@ -45,7 +59,7 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T> void reverse(T[] array) {
-      // TODO: Implement this.
+      reverse(array, 0, array.length);
    }
 
    ///////////////////////////////////////////
@@ -53,7 +67,13 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T> void reverse(T[] array, int fromIndex, int toIndex) {
-      // TODO: Implement this.
+      int i = fromIndex;
+      int j = toIndex-1;
+      while (i != j && i != j+1) {
+         swap(array, i, j);
+         ++i;
+         --j;
+      }
    }
 
 

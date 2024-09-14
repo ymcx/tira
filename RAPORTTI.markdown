@@ -38,6 +38,13 @@ Alaluvut jokaisen tehtävän raportille löydät alta.
 
 ## 01-TASK
 
+Opin toteuttamaan simppelin algoritmin koodilla käytännön hahmotuksen lisäksi. Toisaalta mieleen palasi Javan syntaksi ja sen raikkaus verrattuna mm. C++ ja Rustiin, joidenka parissa olen käytännössä koko Ohjelmointi 2 -kurssin jälkeisen ajan viettänyt. Haasteita tuli tuon maagisen 'TIRA Coders' -applikaation löytämiseen, sillä tykkään kirjoittaa koodini suoraan terminaalissa ja myös ajaa sen siellä. Kurssin tuleville toteutuksille lienee parasta selventää tuota hieman ja sitä, mistä/miten kyseisen applikaation voi avata.
+
+Toteutetun lajittelualgortmin aikakompleksisuusluokka on O(n^2) ja vastaavasti kääntöalgoritmin O(n).
+
+Taulukko kannattaa kääntää uudelleenlajittelun sijaan, sillä lajittelu joutuu tekemään tarpeettomia vertailuja eri muuttujien välillä. Ylimääräisille muuttujille muistin allokoiminen on myös hidasta sekä kallista muistin suhteen.
+
+
 ## 02-TASK
 
 ## 03-TASK
