@@ -47,6 +47,19 @@ Taulukko kannattaa kääntää uudelleenlajittelun sijaan, sillä lajittelu jout
 
 ## 02-TASK
 
+![Add- ja hakualgoritmi suhteessa listan kokoon](kuvat/t2.png)
+
+Sekä add- ja koodattujen hakualgoritmien tulisi käytännössä olla lineaarisia ja vastata aikakompleksisuusluokkaa O(n). Kuitenkin jostain syystä omalla masiinallani benchmarkien käyrät muistuttavat enemmän eksponentiaalista kasvua. Ellen ole pahoin erehtynyt asian suhteen, saattaa syy johtua jostain muusta kuten esimerkiksi prosessorin thermal throttlaamisesta tai tarkastelujoukon koon pienuudesta.
+
+Etsintäalgoritmini ei aluksi toiminut oikein, sillä tuota omalla koneellani noin kolme minuuttia kestävää testiä toistaessa se ei koskaan löytänyt listalla olevaa arvoa. Tajusin vasta varsin myöhään tehneeni kaikki for-loopit tarkistamaan arvot [0, count-1[, eikä [0, count-1]. Kysessä on siis klassinen off-by-one -virhe.
+
+Nopean ja hitaan sorttauksen syynä lienee se, että monilla eri koodareilla on samoja koodarinimiä, jolloin uniikkien entryjen lukumäärä on moninkerroin pienempi. Molemmat algoritmit ovat vertailijaa lukuunottamatta identtisiä ja perustuvat samaan lisäyslajitteluun ensimmäisen tehtävän tapaan, joten myös näiden aikakompleksisuusluokan tulisi vastata luokkaa O(n^2).
+
+Kuten ensimmäisessä tehtävässä on todettu, on listan kääntäminen nopeampaa uudelleenlajitteluun verrattuna. TIRA Coders -applikaatiossakin voi todeta tämän huomattavan eron näiden kahden välillä: sorttauksen suuntaa vaihtaessa kutsutaan vain reverse() -funktiota, joka tapahtuu alle sekuntissa. Sen sijaan pakollisen sorttauksen ollessa edessä esim. vaihtaessa sortattavaksi kohteeksi koodarinimen oikean nimen sijaan, kestää se useita sekunteja.
+
+Toteutettuja hakualgoritmeja kutsutaan lineaarisiksi, sillä ne looppaavat jokaisen arvon läpi kertaalleen, toisesta päädystä toiseen. Siksi sen aikakompleksisuusluokka (O(n)) kuvastaa myös tätä lineaarisuutta.
+
+
 ## 03-TASK
 
 ## 04-TASK

@@ -2,6 +2,9 @@ package oy.interact.tira.model;
 
 import java.util.Comparator;
 
+import oy.interact.tira.student.CoderFullNameComparator;
+import oy.interact.tira.student.CoderNameComparator;
+
 
 public enum CoderSortOrder {
 	FULLNAME_ASCENDING ("Full name (ascending)"),
@@ -52,13 +55,23 @@ public enum CoderSortOrder {
 		};
 	}
 
-	// TODO: Students: Implement Comparators for comparing Coder full names
-	// and coder names as required. Then depending on the enum value, return
-	// a correct comparator object. Use switch (this) to check what is the
-	// current value of the enum. Use Comparator.reversed() to get a comparator
-	// that compares elements in reversed order.
-
 	public Comparator<Coder> getComparator() {
-		return null;
+		switch (this) {
+			case FULLNAME_ASCENDING: {
+				return new CoderFullNameComparator();
+			}
+			case FULLNAME_DESCENDING: {
+				return new CoderFullNameComparator().reversed();
+			}
+			case CODER_NAME_ASCENDING: {
+				return new CoderNameComparator();
+			}
+			case CODER_NAME_DESCENDING: {
+				return new CoderNameComparator().reversed();
+			}
+			default: {
+				return null;
+			}
+		}
 	}
 }

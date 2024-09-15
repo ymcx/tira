@@ -55,7 +55,12 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public E get(E element) throws IllegalArgumentException {
-		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
+		for (int i=0; i<count; ++i) {
+			if (array[i] == element) {
+				return element;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -65,7 +70,12 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public int indexOf(E element, Comparator<E> usingComparator) {
-		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
+		for (int i=0; i<count; ++i) {
+			if (element.compareTo(array[i]) == 0) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	@Override
@@ -109,12 +119,21 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public int findIndex(Predicate<E> searcher) {
-		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
+		for (int i=0; i<count; ++i) {
+			if (searcher.test(array[i])) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	@Override
 	public E find(Predicate<E> searcher) {
-		throw new NotYetImplementedException("Task 02-TASK on linear search not yet implemented");
+		int index = findIndex(searcher);
+		if (index != -1) {
+			return array[index];
+		}
+		return null;
 	}
 
 	@Override
@@ -172,7 +191,9 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public void reverse() {
-		Algorithms.reverse(array, 0, count);
+		if (count >= 2) {
+			Algorithms.reverse(array, 0, count);
+		}
 	}
 
 	@Override
@@ -182,14 +203,18 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public void sort() {
-		Algorithms.insertionSort(array, 0, count);
+		if (count >= 2) {
+			Algorithms.insertionSort(array, 0, count);
+		}
+		sorted = true;
 	}
 
 	@Override
 	public void sort(Comparator<E> usingComparator) {
-		// TODO: call your sorting algorithm with array, update sorted status of this container!
-		// You may want to check if the array has any elements before calling sort.
-		// Also note that the array here has elements only between 0..<count!
+		if (count >= 2) {
+			Algorithms.insertionSort(array, 0, count, usingComparator);
+		}
+		sorted = true;
 	}
 
 }
