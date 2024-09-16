@@ -62,6 +62,19 @@ Toteutettuja hakualgoritmeja kutsutaan lineaarisiksi, sillä ne looppaavat jokai
 
 ## 03-TASK
 
+![Binäärihaun osien kesto suhteessa listan kokoon](kuvat/t3.png)
+![Excel-taulukko kyseisille tuloksille](kuvat/t3_2.png)
+*Otathan huomioon, että 'binSearch'-sarakkeen ensimmäinen alkio on muutettu alkuperäisestä nollaan. Tämä virheellinen tulos teki käyrästä lähes hyödyttömän.*
+
+Koska sovellus jäätyi jatkuvasti kokeillessani ladata 50k-kokoista tiedostoa, suoritin kokeilut tuolla suurimmalla toimivalla, 10k-kokoisella tietokannalla. Tällä tuo oletettavasti lineaarinen haku kesti ~20ms. Binäärihaun aika on login mukaan 0ms, joka tekee luonnollisesti näiden tulosten suhteellisesta vertaamisesta varsin haastavaa. Olennaista kuitenkin on se, että uusi algoritmi on ehtojen täyttyessä (haun pitää täsmälleen vastata tulosta) huomattavasti nopeampi.
+
+Harmikseni en saanut kertaakaan tuota binäärihakua kestämään nollaa millisekuntia kauempaa, jolloin pienempiin tiedostokokoihin hakualgoritmin vertaaminen ei tuottanut vertailukelpoisia tuloksia. Tämä siis vaikka valitsin etsittäväksi alkioksi aina listan viimeisen, jonka haun pitäisi olla yksi kauimmin kestävistä tällä algoritmillä. Aikaisemman lineaarisen haun kesto skaalautui odotetusti tiedoston koon ja koodarin sijainnin mukaan. Sen sijaan binäärihaun tulisi olla tiedostokoosta riippumatta lähes välitön, mikäli haettava on täsmälleen listan keskellä. Tällöin funktio ei joudu rekursoimaan kertaakaan.
+
+Kokonaisuudessaan tämän tehtävän haku on hieman hitaampi viime tehtävän vastaavaan nähden. Tämä johtuneen siitä, ettei lineaarinen haku edellytä listan hidasta sorttaamista. Jos sorttaamisen jättää laskuista pois, on se omalla järjestelmälläni noin 20 kertaa nopeampi. Kuten aikaisemmin todettu, tulee binäärihaun edellytysten täyttyäkseen haun vastata hakutulosta täsmällisesti. Sen käyttäminen lineaarihaun sijaan on kannattavaa testien perusteella pääosin vain silloin, kun lista on jo tai pitää sortata.
+
+Tehtävän hakualgoritmin kompleksisuusluokka on O(log(N)), sillä jokaisen iteraation jälkeen tarkisteltava lista käytännössä jakaantuu kahdella. Oikean tuloksen löydettyä voidaan tarkastelu pysäyttää siihen paikkaan, eikä loppuja arvoja tarvitse tarkastella.
+
+
 ## 04-TASK
 
 ## 05-TASK

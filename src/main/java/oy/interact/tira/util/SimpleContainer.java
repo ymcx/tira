@@ -4,7 +4,6 @@ import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
-import oy.interact.tira.NotYetImplementedException;
 import oy.interact.tira.student.Algorithms;
 
 public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E> {
@@ -70,9 +69,14 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public int indexOf(E element, Comparator<E> usingComparator) {
-		for (int i=0; i<count; ++i) {
-			if (element.compareTo(array[i]) == 0) {
-				return i;
+		if (isSorted()) {
+			return Algorithms.binarySearch(element, array, 0, count, usingComparator);
+		}
+		else {
+			for (int i=0; i<count; ++i) {
+				if (element.compareTo(array[i]) == 0) {
+					return i;
+				}
 			}
 		}
 		return -1;

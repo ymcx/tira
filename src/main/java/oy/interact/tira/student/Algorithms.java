@@ -95,14 +95,47 @@ public class Algorithms {
    }
 
    public static <T extends Comparable<T>> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex, BSearchImplementation impl) {
-      if (impl == BSearchImplementation.RECURSIVE) {
-         return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1);
+      switch (impl) {
+         case RECURSIVE:
+            return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1);
+         case ITERATIVE:
+            return binarySearchIterative(aValue, fromArray, fromIndex, toIndex - 1);
+         default:
+            return -1;
       }
-      // TODO: IF implementing iterative binary search, call that here.
-      return -1;
    }
 
    public static <T extends Comparable<T>> int binarySearchRecursive(T aValue, T[] fromArray, int fromIndex, int toIndex) {
+      if (fromIndex > toIndex) {
+         return -1;
+      }
+      int checking = (toIndex-fromIndex)/2+fromIndex;
+      int compared = aValue.compareTo(fromArray[checking]);
+      if (compared==0) {
+         return checking;
+      }
+      else if (compared>0) {
+         return binarySearchRecursive(aValue, fromArray, checking + 1, toIndex);
+      }
+      else {
+         return binarySearchRecursive(aValue, fromArray, fromIndex, checking - 1);
+      }
+   }
+
+   public static <T extends Comparable<T>> int binarySearchIterative(T aValue, T[] fromArray, int fromIndex, int toIndex) {
+      while (fromIndex <= toIndex) {
+         int checking = (toIndex-fromIndex)/2+fromIndex;
+         int compared = aValue.compareTo(fromArray[checking]);
+         if (compared==0) {
+            return checking;
+         }
+         else if (compared>0) {
+            fromIndex = checking + 1;
+         }
+         else {
+            toIndex = checking - 1;
+         }   
+      }
       return -1;
    }
 
@@ -111,25 +144,52 @@ public class Algorithms {
    ///////////////////////////////////////////
 
    public static <T> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
-      return -1;
+      return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1, comparator);
    }
 
    public static <T> int binarySearch(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator, BSearchImplementation impl) {
-      if (impl == BSearchImplementation.RECURSIVE) {
-         return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1, comparator);
+      switch (impl) {
+         case RECURSIVE:
+            return binarySearchRecursive(aValue, fromArray, fromIndex, toIndex - 1, comparator);
+         case ITERATIVE:
+            return binarySearchIterative(aValue, fromArray, fromIndex, toIndex - 1, comparator);
+         default:
+            return -1;
       }
-      // TODO: IF implementing iterative binary search, call that here.
-      return -1;
    }
 
    public static <T> int binarySearchRecursive(T aValue, T[] fromArray, int fromIndex,
          int toIndex, Comparator<T> comparator) {
-      // TODO: Recursive implementation
-      return -1;
+      if (fromIndex > toIndex) {
+         return -1;
+      }
+      int checking = (toIndex-fromIndex)/2+fromIndex;
+      int compared = comparator.compare(aValue, fromArray[checking]);
+      if (compared==0) {
+         return checking;
+      }
+      else if (compared>0) {
+         return binarySearchRecursive(aValue, fromArray, checking + 1, toIndex, comparator);
+      }
+      else {
+         return binarySearchRecursive(aValue, fromArray, fromIndex, checking - 1, comparator);
+      }
    }
 
    public static <T> int binarySearchIterative(T aValue, T[] fromArray, int fromIndex, int toIndex, Comparator<T> comparator) {
-      // TODO: Iterative implementation if grade interests you:
+      while (fromIndex <= toIndex) {
+         int checking = (toIndex-fromIndex)/2+fromIndex;
+         int compared = comparator.compare(aValue, fromArray[checking]);
+         if (compared==0) {
+            return checking;
+         }
+         else if (compared>0) {
+            fromIndex = checking + 1;
+         }
+         else {
+            toIndex = checking - 1;
+         }   
+      }
       return -1;
    }
 
