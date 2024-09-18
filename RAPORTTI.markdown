@@ -40,6 +40,31 @@ Tehtävän hakualgoritmin kompleksisuusluokka on O(log(N)), sillä jokaisen iter
 
 ## 04-TASK
 
+Kenties tärkein tämän tehtävän aikana opittu asia on se, että ehkä kuitenkin kannattaa rapidfire-toistokokeiden suorittamisen sijaan mennä Moodleen ja katsoa, että onko muilla ollut samankaltaisia ongelmia, kuin mikä on itsellä edessä. Nimittäin en millään saanut monenkaan tunnin ja hyvien yöunien jälkeen tehtävän sulkutestejä suoriutumaan ennen kuin erehdyin tuonne.
+
+Suhteessa aikaisempiin tehtäviin, tämä tuotti huomattavasti enemmän hankaluuksia. Testamenttina tästä toimii mainiosti tuo toteutettu spagettikoodi (sic), jonka näistä kommiteista voi vapaasti lukea. Kaikki tehtävän lainausmerkkilogiikasta merkkijonon rivin ja kolumnin hakemiseen oli vähintäänkin aivoja silentävää.
+
+Mitä tulee pinorakenteen aikakompleksisuusluokkaehtoihin, on niistä valtaosa helposti lajiteltavissa luokkaan O(1). Tälläisiä ovat mm.
+
+1. clear(), joka luo uuden listaolion vanhan tilalle ja asettaa viimeksi asetetun elementin indeksin takaisin oletusarvoon -1.
+
+2. isEmpty(), joka ei vertailun lisäksi kutsu muita muuttujia.
+
+3. size(), joka suorittaa ainoastaan palautuksen lisäksi yhden laskutoimituksen.
+
+4. peek(), joka palauttaa listan päällimmäisen arvon ilman for-looppia.
+
+5. pop(), joka pienentää indeksiä yhdellä, poistaa päällimmäisen arvon ja palauttaa siitä tehdyn kopion.
+
+6. push(), joka lisää annetun arvon listaan ja nostaa indeksiä. Poikkeuksena tiestysti listan täyttyminen, jolloin kutsutaan resize() -funktiota.
+
+7. capacity(), joka palauttaa listan koon.
+
+8. Kontsruktorit, jotka kummatkin luovat uuden listaolion, joko peruskoolla tai annetulla numerolla.
+
+Sen sijaan toString() ja äskettäin mainittu resize() ovat poikkeuksia tästä. toString() käy uuvuttavan hitaasti jokaisen listan arvon läpi, ja lisää sen StringBuilder-olioon. For-loopin lisäksi siinä ei ole muita fuktiokutsuja, jotka joutuisivat käymään läpi jotain listaa. resize() puolestaan luo uuden listan, tällä kertaa kaksinkertaisella koolla aikaisempaan nähden. Jokainen vanhan listan arvo lisätään uuteen loopin sisällä ja lopuksi vanha lista korvataan uudella, antaen sen arvot Javan roskienkerääjälle kerättäväksi.
+
+
 ## 05-TASK
 
 ## 06-TASK
