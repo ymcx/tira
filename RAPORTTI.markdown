@@ -1,41 +1,3 @@
-# Raportit tehtävistä
-
-Kirjaa tähän tiedostoon **jokaiseen** tehtävään liittyvät omat raporttisi ja analyysisi. Muista että raportti on myös kurssilla **arvosteltava tehtävä**.
-
-Voit sisällyttää raporttiin tekstimuotoisia taulukoita (tasaukset välilyönnein):
-
-```
-n     Fill     Search   Total
-500   7        700      707
-1000  9        288      297
-```
-
-Ja näihin liittyviä kuvatiedostoja:
-
-![Esimerkkikuva](report-sample-image.png)
-
-Nämä näkyvät sitten VS Coden Preview -näkymässä (tai oman repositorysi webbisivulla) oikein muotoiltuna. Käytä tässä dokumentissa olevia muotoiluja esimerkkinä kun kirjoitat raporttiasi. 
-
-Huomaa että jos laitat kuvatiedostot vaikka omaan alihakemistoonsa, Markdown -muotoilussa on oltava suhteellinen polku tiedostoon, esimerkiksi `images/report-sample-image.png`. **Älä** käytä absoluuttisia polkuja `C:\Users\tippaleipa\kurssit\TIRA\kuva.png`, koska nämä eivät tietenkään toimi opettajan koneella. Ei kannata laittaa linkkiä etärepoosikaan, vaan nimenomaan paikalliseen tiedostoon.
-
-Voit myös sisällyttää *lyhyitä* koodinpätkiä vaikkapa Java -formaatilla:
-
-```Java
-	@Override
-	public int hashCode() {
-		// Oma nerokas hajautufunktioni!
-	}
-```
-Tarvittaessa käytä myös paremmin muotoiltuja taulukoita:
-
-| n	| Fill	| Search	| Total |
-|-----|--------|--------|-------|
-| 500	 | 7	| 700	| 707 |
-| 1000 |	9	| 288	| 297 | 
-
-Alaluvut jokaisen tehtävän raportille löydät alta.
-
-
 ## 01-TASK
 
 Opin toteuttamaan simppelin algoritmin koodilla käytännön hahmotuksen lisäksi. Toisaalta mieleen palasi Javan syntaksi ja sen raikkaus verrattuna mm. C++ ja Rustiin, joidenka parissa olen käytännössä koko Ohjelmointi 2 -kurssin jälkeisen ajan viettänyt. Haasteita tuli tuon maagisen 'TIRA Coders' -applikaation löytämiseen, sillä tykkään kirjoittaa koodini suoraan terminaalissa ja myös ajaa sen siellä. Kurssin tuleville toteutuksille lienee parasta selventää tuota hieman ja sitä, mistä/miten kyseisen applikaation voi avata.
@@ -64,6 +26,7 @@ Toteutettuja hakualgoritmeja kutsutaan lineaarisiksi, sillä ne looppaavat jokai
 
 ![Binäärihaun osien kesto suhteessa listan kokoon](kuvat/t3.png)
 ![Excel-taulukko kyseisille tuloksille](kuvat/t3_2.png)
+
 *Otathan huomioon, että 'binSearch'-sarakkeen ensimmäinen alkio on muutettu alkuperäisestä nollaan. Tämä virheellinen tulos teki käyrästä lähes hyödyttömän.*
 
 Koska sovellus jäätyi jatkuvasti kokeillessani ladata 50k-kokoista tiedostoa, suoritin kokeilut tuolla suurimmalla toimivalla, 10k-kokoisella tietokannalla. Tällä tuo oletettavasti lineaarinen haku kesti ~20ms. Binäärihaun aika on login mukaan 0ms, joka tekee luonnollisesti näiden tulosten suhteellisesta vertaamisesta varsin haastavaa. Olennaista kuitenkin on se, että uusi algoritmi on ehtojen täyttyessä (haun pitää täsmälleen vastata tulosta) huomattavasti nopeampi.
