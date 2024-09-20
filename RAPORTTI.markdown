@@ -67,6 +67,17 @@ Sen sijaan toString() ja äskettäin mainittu resize() ovat poikkeuksia tästä.
 
 ## 05-TASK
 
+Tehtävä oli aikaisempaan verrattuna huomattavasti nopeampi tehdä ainakin omalta osaltani, vaikka ehkä vaatikin koodiriveissä mitattuna enemmän panostusta. Hankaluuksista ei sinänsä ollut mitään merkillepantavaa, ehkä joitain pieniä satunnaisia logiikkavirheitä tuli siellä sun täällä. 
+
+Linkitetty lista käyttää taulukkopohjaiseen vastaavaan verrattuna enemmän ram-muistia, sillä jokainen elementti joutuu pitää sisällään osoittimen edelliseen ja tulevaan elementtiin. Hyvänä puolena tämä kuitenkin mahdollistaa tehtävänannossa alleviivatun käytännössä tarpeeksi suuren listan muodostamiseen ilman että uudelleenallokointia vaativa raja tulisi vastaan. Elementtejä voidaan mielivaltaisesti lisätä jokaiseen listan indeksiin ilman, että listan jokainen olio sitä ennen tai sen jälkeen jouduttaisiin manuaalisesti siirtää yhdellä eteenpäin.
+
+Vaikka molempien listatoteutusten lisäysmetodien aikakompleksisuusluokka on tavanomaisesti O(1), on taulukkopohjaisen listan lisäysmetodin listan täyttyessä luoda uusi lista, rekursoiden jokaisen arvon läpi. Käytännössä siis aikakompleksisuusluokasta tulee tällöin O(n).
+
+Toisaalta listalta on helpompaa poimia arvo mielivaltaisesti valitun indeksin kohdalta, sillä jokaisen arvon sijainti on tiedossa. Linkitetyn listan kanssa tämä vaatii pakollista looppaamista jommasta kummasta päädystä toiseen siihen asti, että haluttu arvo löydetään.
+
+Listaimplementiossani ainoat silmukoita sisältävät funktiot ovat toString() ja resize(). Linkitetyssä listassa tällainen on vain toString(), sillä listan kokoa ei tarvitse erikseen muuttaa. Kuten aikaisemmin mainittu, vaatisi elementtien haku indeksien ja tietysti myös arvon perusteella jokaisen arvon läpi silmukoimista halutun tuloksen saavuttamiseen saakka.
+
+
 ## 06-TASK
 
 ## 07-TASK
