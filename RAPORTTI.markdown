@@ -80,6 +80,21 @@ Listaimplementiossani ainoat silmukoita sisältävät funktiot ovat toString() j
 
 ## 06-TASK
 
+![Sorttausalgoritmien vertailu toisiinsa](kuvat/t6.png)
+
+Opin tässä tehtävässä toteuttaamaan hieman käytännönläheisempiä sorttausalgoritmeja. Tehtävässä ei onneksi tarvinnut kirjoittaa kovinkaan paljon koodirivejä, mutta määrän sijaan niiden tuli tällä kertaa olla verrattain laadukkaita. Vaikeuksia tuotti erityisesti tuo heapsortin implementointi tilanteessa, jossa alku- ja loppupään indeksit on erikseen annettu. Tästä toki tehtävässä etukäteen jo varoitettiinkin.
+
+Kuten ylle kiinnitetystä kuvankaappauksesta voi todeta, on tehtävän nopeat algoritmit aikakompleksisuusluokaltaa toisissa sfääreissä suhteessa hitaaseen insertionsorttiin. Tämän vuoksi jouduinkin tekemään listasta logaritmisen, jotta kaikista pienimmät arvot pystyttiin edes havaita insertionsortin elinkautiselta tuntuvien aikayksiköiden vieressä. Uudet algoritmit ovat toisiinsa nähden selvästi eri mittaisia, muttei missään nimessä hitaita suhteessa hitaaseen algoritmiin.
+
+Huomiona muuten, tajusin tätä tehtävää tehdessäni kirjoittaneeni insertionsortista O(n)-luokkaisena algoritmina, vaikka kahden silmukan vuoksi sehän on O(n^2). Palatakseni tähän tehtävään, testien ohella selvää on, että algoritmien aikakompleksisuusluokille O(f(n)) pätee O(f(n)) < O(n^2). Kuitenkaan O(n) ne eivät voi olla, sillä testitulokset eivät viittaa lineaarisuuteen. Tarkemmin en osaisi näitä varmaankaan itse luokitella, mutta materiaalia hyväksikäyttämällä voin todeta kaikkien uusien algoritmien seuraavan samaa O(n*log(n)) -aikakompleksisuusluokkaa.
+
+Testien lomissa mergesort näyttää olevan selvä voittaja. Itsellä pisti silmään se, että siinä tosiaan pidetään yllä aina kahta listaa, joka luonnollisesti tulee lisääntyneen muistinkulutuksen kustannuksella. Toisaalta siinä missä muut algoritmit menivät jokseenkin pääni yli, oli tämä paljon ymmärrettävämpi ja siten myös helpompi implementoida.
+
+Heapsort on muistinkäytöltään ehkäpä parhain näistä, joskaan tätä en itse päässyt testaamaan. Nopeudeltaan se on myös kaikista ennustettavin, quicksort mahdollisesti vähiten. Quicksortin kulmakivenä toimii hyvin valittu pivot-piste, jota ilman sorttauksen teho kärsii ja pahimmillaan aikakompleksisuudeltaan alkaa jäljentää O(n^2).
+
+Omilla testeilläni algoritmien sijoitus nopeustestissä oli lähes aina kaikilla yli sataa koodiria sisältävän tiedoston sorttauksessa sama: mergesort tuli ensimmäisenä, quicksort toisena ja heapsort viimeisenä. Tätä pienemmistä aineistoista en osaa kommentoida muuta kuin sen, että aina pienempään tiedostoon tultaessa metodien tehokkuus lähenee toisiaan.
+
+
 ## 07-TASK
 
 ## 08-TASK

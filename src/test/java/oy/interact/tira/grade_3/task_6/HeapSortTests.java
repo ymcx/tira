@@ -22,7 +22,7 @@ import oy.interact.tira.student.Algorithms.FastSortAlgorithm;
 @DisplayName("Testing heapsort algorithm with Comparators")
 class HeapSortTests {
 
-	private static final int TEST_COUNT = 6;
+	private static final int TEST_COUNT = 7;
 	private static int currentFileIndex = 0;
 	private Coder[] coderArray;
 

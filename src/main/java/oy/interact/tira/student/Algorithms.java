@@ -1,6 +1,9 @@
 package oy.interact.tira.student;
 
 import java.util.Comparator;
+import oy.interact.tira.student.QuickSort;
+import oy.interact.tira.student.MergeSort;
+import oy.interact.tira.student.HeapSort;
 
 public class Algorithms {
 
@@ -214,13 +217,13 @@ public class Algorithms {
    public static <E> void fastSort(E[] array, int fromIndex, int toIndex, Comparator<E> comparator, FastSortAlgorithm algorithm) {
       switch (algorithm) {
          case QUICKSORT:
-            // TODO: Call your quicksort algorithm here.
+            QuickSort.sort(array, fromIndex, toIndex-1, comparator);
             break;
          case HEAPSORT:
-            // TODO: IF implementing heapsort, call your algorithm here.
+            HeapSort.sort(array, fromIndex, toIndex, comparator);
             break;
          case MERGESORT:
-            // TODO: IF implementing mergesort, call your algorithm here.
+            MergeSort.sort(array, fromIndex, toIndex, comparator);
             break;
          default:
             break;
