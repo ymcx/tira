@@ -54,9 +54,12 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public E get(E element) throws IllegalArgumentException {
+		if (element == null) {
+			throw new IllegalArgumentException();
+		}
 		for (int i=0; i<count; ++i) {
-			if (array[i] == element) {
-				return element;
+			if (array[i].equals(element)) {
+				return array[i];
 			}
 		}
 		return null;
@@ -64,6 +67,9 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 
 	@Override
 	public E get(int index) throws IndexOutOfBoundsException {
+		if (index >= count || index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
 		return array[index];
 	}
 
@@ -74,7 +80,7 @@ public class SimpleContainer<E extends Comparable<E>> implements TIRAContainer<E
 		}
 		else {
 			for (int i=0; i<count; ++i) {
-				if (element.compareTo(array[i]) == 0) {
+				if (usingComparator.compare(element, array[i]) == 0) {
 					return i;
 				}
 			}

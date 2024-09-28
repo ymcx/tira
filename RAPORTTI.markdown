@@ -97,6 +97,57 @@ Omilla testeilläni algoritmien sijoitus nopeustestissä oli lähes aina kaikill
 
 ## 07-TASK
 
+![Taulukko, BST:n hidas ja nopea implementaatio verrattuna keskenään](kuvat/t7.png)
+
+*Huom. kuvassa on jälleen kerran hyödynnetty logaritmista skaalaa.*
+
+Tämän tehtävän tekemiseen meni ainakin toistaiseksi eniten aikaa suhteessa aikaisempiin tehtäviin. Syynä lienee todennäköisesti ensinnäkin kyseisen tietorakenteen tuntemattomuus omalta osaltani sekä myös se, että koodin toiminnan hahmottaminen oli haastavampaa ja vaadittava koodimäärä suurempaa. Huomasin myös TIRA Codersia katsoessa, että olin tehnyt virheen tehtävässä numero kaksi, jossa vertasin olioiden yhtäpitävyyttä "=="-merkillä sen sijaan, että olisin käyttänyt equals()-metodia. Luulin näiden toteuttavan tismalleen saman asian, mutta kuinka ollakkaan, TIRA Codersista puuttuvat koodariystävät pamahtivat ruudulle välittömästi tämän korjaamisen jälkeen.
+
+Oikeellisuudesta voin todeta sen, että yksikkötestit suoriutuivat onnistuneesti, enkä itse pystynyt paljaalla silmällä löytämään mitään hälyyttävää ongelmaa koodista. Toki ei olisi ennennäkemätöntä, että koodissa lymyilisi virhe, joita testejä ei olla kirjoitettu huomioimaan, kuten tuosta mainitsemastani mokasta voi huomata. 
+
+Olen liittänyt tehtävän alkuosaan kuvan, jossa on vertailtu 50000 koodarin käsittelyä taulukolla, hitaalla sekä nopealla BST-implementaatiolla. Taulukko on puhtaasti nopein hakiessamme elementtiä annetusta indeksistä, joka toki vaatii sen, että taulukko ollaan etukäteen sortattu. Jos taulukkoa ei oltaisi sortattu, kestäisi tämä operaatio jopa kauemmin, kuin BST:n hitaampi implementaatio. Eli siis vaikka taulukko on tässä asiassa testien perusteella tuplasti nopeaa BST:tä nopeampi, on se käytännössä yhtä hidas hitaamman version kanssa. Muissa testeissä molemmat BST:t ovat lähestulkoon yhtä nopeita. Tämän testin suuri eroavuus johtunee siitä, että hitaampi BST joutuu käymään jokaisen elementin aina haluttuun indeksiin saakka läpi, kun taas nopeampi pystyy käyttämään jokaisen noden lapsilukumäärää hyödykseen laskiessaan suunnan, jonne tulisi seuraavaksi edetä löytääkseen halutun arvon.
+
+Haku on kaikissa lähes yhtä nopea, joskin taulukon nopeus jää hieman vajaaksi muista kilpailijoista. Exporttauksessa yllättäen hidas BST näyttänee tulevan ensimmäiseksi, joskin voimme kommittien perusteella todeta, ettei kyseisen testin käyttämä funktio muuttunut ollenkaan hitaasta nopeaan versioon päivitettäessä. Testien hitain osuus nähdään kuitenkin vasta importtauksessa, jossa taulukolla kestää päälle minuutti viidenkymmenen tuhannen koodarin lisäämiseen samalla kun BST:llä kestää vain muutamia kymmeniä millisekunteja.
+
+Nopeamman BST:n funktioiden aikakompleksisuusluokat ovat seuraavat:
+
+1. Funktioiden indexOf(), getIndex(), add(), get() ja remove() aikakompleksisuusluokka on O(log(N)), sillä jokainen niistä joutuu käymään useita arvoja läpi. Minkään näistä ei kuitenkaan tule tarkistaa listan jokaista arvoa toisin kuin seuraavissa funktioissa, sillä ne saavat jatkuvaa syöttöä siitä, tullaanko lähemmäs vai kauemmas halutusta arvosta.
+
+2. findIndex(), find() ja toArray() jäljentävät hitaampaa aikakompleksisuusluokkaa O(n), sillä ne joutuvat hiitaasti käymään lähes jokaisen arvon läpi, ilman minkäänlaista ohjennuoraa siitä, missä suunnasta etsityn arvon tulisi löytyä.
+
+3. Simppelimmät funktiot accept(), size(), capacity(), ensureCapacity() ja clear() joutuvat tekemään vain staattisia operaatioita, eikä niissä ole käytetty minkäänlaista silmukkaa. Näin ollen niiden aikakompleksisuusluokka on  O(1).
+
+Täydellisen BST:n kerroksien lukumäärää on mahdollista simuloida seuraavalla kaavalla:
+
+(2^k)-1 = n, missä n on mikä tahansa koodarien määrää esittävä kokonaisluku ja k on kerrosten lukumäärä. Koska k kuvaa kerrosten lukumäärää, ja kerrokset voivat olla vajaita, mutta eivät kapasiteettiansa suurempia, pyöristetään k ylöspäin lähimpään kokonaislukuun.
+
+Tästä saadaan seuraavat:
+
+- k=4, kun n=10.
+
+- k=7, kun n=100. Omalla toteutuksellani vastaava k:n arvo oli 13.
+
+- k=10 ja omalla k=22, kun n=1000.
+
+- k=13 ja omalla k=29, kun n=5000.
+
+- k=14 ja omalla k=30, kun n=10000.
+
+- k=16 ja omalla k=40, kun n=50000.
+
+- k=17 ja omalla k=38, kun n=100000.
+
+- k=20 ja omalla k=51, kun n=1000000.
+
+- k=21, kun n=2000000. Muistini loppui tässä vaiheessa ja oli kiire viettämään viikonloppua, joten en jaksanut lähteä allokoimaan JVM:lle lisää muistia saatika lisäämään swappia.
+
+Käytin toteutustapaa D funktioissa indexOf() ja getIndex(), A funktioissa toArray(), find() ja findIndex() sekä viimeisenä iteratiivista B:tä fuktioissa add(), get() ja remove(). Kaikki O(n) funktiot olisi ollut suotavaa toteuttaa D:nä, joskaan en sille löytänyt ratkaisua predikaatin käytön takia. Tästä lopullisesta toteutuksesta en oikeastaan muuttaisi mitään, mutta tulevaisuudessa aloittaisin kyllä suoraan tuosta D:stä sen sijaan, että lähden implementoimaan hitaampaa ratkaisua vain kumittaakseni sen pois nopeamman edeltä.
+
+Testien mukaan hitaassa BST:ssä noden hakeminen indeksin perusteella ja exporttaaminen veivät tiedostokokoon nähtynä eksponentiaalisesti enemmän aikaa, kun taas lineaarisesti suhteessa koodaritiedoston kokoon käytetty aika kasvoi noden haussa annetun arvon pohjalta. 
+
+Nopealla implementaatiolla tulosten seulominen oli hieman vaikeampaa sen nopeuden vuoksi. Näyttää kuitenkin siltä, että tässä elementin hakemiseen indeksin perusteella käytetty aika näyttää kulkevan käsi kädessä koodaritiedoston koon kanssa, eli lineaarisesti.
+
+
 ## 08-TASK
 
 ## 09-TASK

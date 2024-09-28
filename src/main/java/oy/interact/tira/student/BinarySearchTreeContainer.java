@@ -15,58 +15,60 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     this.comparator = comparator;
   }
 
-  private void indexOf(TreeNode<K, V> node, int[] count, int[] result, K itemKey) {
+  private int indexOf(TreeNode<K, V> node, K itemKey) {
     if (node == null) {
-      return;
+      return -1;
     }
-    indexOf(node.left, count, result, itemKey);
-    ++count[0];
-    if (comparator.compare(node.key, itemKey) == 0) {
-      result[0] = count[0];
+    int left = (node.left!=null) ? node.left.size : 0;
+    int comparison = comparator.compare(node.key, itemKey);
+    if (comparison == 0) {
+      return left;
     }
-    indexOf(node.right, count, result, itemKey);
+    if (comparison > 0) {
+      return indexOf(node.left, itemKey);
+    }
+    int right = indexOf(node.right, itemKey);
+    return (right!=-1) ? left+right+1 : -1;
   }
 
   @Override
   public int indexOf(K itemKey) {
-    int[] count = {-1};
-    int[] result = {-1};
-    indexOf(root, count, result, itemKey);
-    return result[0];
+    return indexOf(root, itemKey);
   }
   
-  private void getIndex(TreeNode<K, V> node, int[] count, Object[] result, int index) {
+  private Pair<K, V> getIndex(TreeNode<K, V> node, int index) {
     if (node == null) {
-      return;
+      return null;
     }
-    getIndex(node.left, count, result, index);
-    ++count[0];
-    if (count[0] == index) {
-      result[0] = node;
+    int left = (node.left!=null) ? node.left.size : 0;
+    if (left == index) {
+      return new Pair<K, V>(
+        node.key,
+        node.value
+      );
     }
-    getIndex(node.right, count, result, index);
+    if (left > index) {
+      return getIndex(node.left, index);
+    }
+    return getIndex(node.right, index-left-1);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Pair<K,V> getIndex(int index) throws IndexOutOfBoundsException {
     if (index >= size) {
       throw new IndexOutOfBoundsException();
     }
-    int[] count = {-1};
-    Object[] result = {null};
-    getIndex(root, count, result, index);
-    return new Pair<K, V>(
-      ((TreeNode<K, V>)result[0]).key,
-      ((TreeNode<K, V>)result[0]).value
-    );
+    return getIndex(root, index);
   }
   
   private void findIndex(TreeNode<K, V> node, int[] count, int[] result, Predicate<V> searcher) {
-    if (node == null) {
+    if (result[0] != -1 || node == null) {
       return;
     }
     findIndex(node.left, count, result, searcher);
+    if (result[0] != -1) {
+      return;
+    }
     ++count[0];
     if (searcher.test(node.value)) {
       result[0] = count[0];
@@ -99,6 +101,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     }
     TreeNode<K, V> node = root;
     while (true) {
+      ++node.size;
       if (node.value == value) {
         node.value = null;
         --size;
@@ -106,7 +109,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
       if (comparator.compare(node.key, key) < 0) {
         if (node.right == null) {
           node.right = newNode;
-          node.right.parent = node;
+          newNode.parent = node;
           ++size;
           return;
         }
@@ -115,7 +118,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
       else {
         if (node.left == null) {
           node.left = newNode;
-          node.left.parent = node;
+          newNode.parent = node;
           ++size;
           return;
         }
@@ -165,10 +168,13 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
   }
 
   private void find(TreeNode<K, V> node, Object[] result, Predicate<V> searcher) {
-    if (node == null) {
+    if (result[0] != null || node == null) {
       return;
     }
     find(node.left, result, searcher);
+    if (result[0] != null) {
+      return;
+    }
     if (node.value != null && searcher.test(node.value)) {
       result[0] = node.value;
     }
@@ -206,14 +212,14 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     size = 0;
   }
 
-  private void toArrayHelp(TreeNode<K, V> node, int[] count, Pair<K, V>[] result) {
+  private void toArray(TreeNode<K, V> node, int[] count, Pair<K, V>[] result) {
     if (node == null) {
       return;
     }
-    toArrayHelp(node.left, count, result);
+    toArray(node.left, count, result);
     ++count[0];
     result[count[0]] = new Pair<K, V>(node.key, node.value);
-    toArrayHelp(node.right, count, result);
+    toArray(node.right, count, result);
   }
 
   @SuppressWarnings("unchecked")
@@ -221,7 +227,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
   public Pair<K, V>[] toArray() throws Exception {
     int[] count = {-1};
     Pair<K, V>[] result = new Pair[size];
-    toArrayHelp(root, count, result);
+    toArray(root, count, result);
     return result;
   }
 
@@ -252,7 +258,9 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     }
     if (v != null) {
       v.parent = u.parent;
+      v.size = u.size;
     }
+    u = null;
   }
   
   private TreeNode<K, V> findByKey(K key) {
