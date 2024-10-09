@@ -150,4 +150,23 @@ Nopealla implementaatiolla tulosten seulominen oli hieman vaikeampaa sen nopeude
 
 ## 08-TASK
 
+![Hidas taulukko, binary search tree ja hashtable verrattuna keskenään](kuvat/t8.png)
+
+Tehtävän tekeminen vei enemmän aikaa suhteessa kaikkiin aikaisempiin tehtäviin, vaikka tämän toteutus olikin mielestäni helpompi oivaltaa. Syy lienee suurelta osin siinä, että kyseisellä ajanhetkellä alkoi muiden kurssien tehtävät painaa enemmän päälle, jolloin tietorakenteet jäivät taka-alalle. Tämän viiveen takia osa tehtävän nippelitiedosta on valitettavasti ehtinyt jo unohtumaan, mutta yritän kuitenkin parhaani.
+
+Hashtablen funktioista monet toimivat ideaalissa tilanteessa aikatehokkuudella O(1), mutta pahimmillaan O(n), kun lasketun hashin kohdalta taulukosta seuraavaan nulliin on pitkä matka. Tälläisia ovat add(), get() ja remove(), vaikkakin lisäysfunktion kohdalla taulukkoa joudutaan suurentamaan vanhan ollessa 75% täynnä. Tällöin lasketaan jokaiselle vanhan taulukon elementille uusi indeksi uuteen taulukkoon, jossa siinäkin voi syntyä uusia törmäyksiä. Eli siis haarukka lisäyksessä käytetylle resize-metodille on O(n)-O(n^2).
+
+Find() on näihin verrattuna poikkeus, sillä se aloittaa tarkistamisen aina taulukon pohjalta ja etenee siitä eteenpäin haluttua arvoa etsiessä ja on näin ollen O(n). Tähän verrattuna vieläkin ennustettavampaa lineaarisuutta kuvastaa toArray(), joka käy jokaisen elementin läpi, eikä pysähdy ennen listan toista päätä.
+
+Luokkaan O(1) kuuluvat size(), capacity(), ensureCapacity() ja clear(), jotka ovat kaikki verrattain yksinkertaisia funktioita ilman silmukoita.
+
+Päätin hashtablen osalta toteuttaa poistamisen yksinkertaisimmalla ja myös suurelta osin tehokkaimmalla tavalla annetuista esimerkeistä. Kyseessä on tietysti siis tämä elementtien määrittäminen tyhjäksi binäärisellä lisämuuttujalla, jonka ansiosta elementtejä ei tarvitse lähteä siirtämään varsin vaivalloisesti indekseistä toisiin. Setissä sen sijaan vastaava ei toiminut, vaikka alkuunkin yritin tehdä jotain luokkaa, joka sisältäisi geneerisen arvon T ja tiedon arvon poistamisaikeesta. Koska tämä ei tuntunut toimivan ideaalisti, niin päätin siirtyä juuri tuohon elementtien liikuttamiseen poistometodissa, jottei muita metodeita tarvitse vaivautua muuttamaan. Lopputulos on hieman sotkuinen, sillä naiivin siirron sijaan jokaisen listan arvon hashi tuli uudelleentarkistaa ja siirtää mahdollisesti toisaalle aina seuraavaan nulliin asti.
+
+Hajautustauluun sadantuhannen koodarin lisääminen vei 206ms, kun taas hitaalla taulukolla vain 15ms. Syy tähän löytynee varmaankin siitä, että pelkästään lisätessä taulukko voi aina laittaa uuden elementin heti seuraavan perään, tarvitsematta laskea jokaiselle arvolle omaa hashia.
+
+Ero vaikka onkin puhtaan lisäyksen kanssa suhteessa toisiinsa iso, on absoluuttinen ero tiedon etsimisessä valtava. Nimittäin hitaalla taulukolla tähän meni samaisessa testissä noin 220 sekuntia, joka on huomattavasti hajautustaulun 107 millisekuntia pidempi aika. Puhumattakaan siitä, että ensimmäisellä tuo aika moninkertaistuu aineiston koon kanssa. Tämä lieneekin koko hajautustaulun tarkoitus, löytää tietty arvo annetun avaimen kohdalta taulukosta ilman uuvuttavaa koko listan läpikäyntiä. Exporttaaminen kummastakin toteutuksesta kesti vajaat kymmenen millisekuntia, sillä molempien toArray()-metodit tehtiin lineaarisina, alusta loppuun looppaavina.
+
+Nopea BST ja hajautustaulu olivat verrattavissa asteikoissa aikatehokkuudessa, joskin suurilla aineistoilla etsiminen näyttänee ymmärrettävästi kallistuvan hajautustauluun puolelle. Muistaakseni BST:n hidasta versiota ei ole tallessa muualla kuin aikaisemmissa commiteissa ja sikäli päätin tässä vedota teoriaan. Teorian mukaan hitaiden ja nopeiden BST:den erot tulisivat näkyä vain indeksiperusteisessa hakemisessa, joita on vaikea erojensa takia verrata tämän tehtävän tauluihin. Toisin sanoen havainnot nopean BST:n, hitaan taulukon ja hajautustaulun välillä ovat kutakuinkin yhtäpitävät hitaan BST:n kanssa, enkä siksi lähde sitä erikseen vertaamaan.
+
+
 ## 09-TASK

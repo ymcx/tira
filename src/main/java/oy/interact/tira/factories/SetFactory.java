@@ -1,7 +1,7 @@
 package oy.interact.tira.factories;
 
-import oy.interact.tira.NotYetImplementedException;
 import oy.interact.tira.model.Coder;
+import oy.interact.tira.student.SetImplementation;
 import oy.interact.tira.util.SetInterface;
 import oy.interact.tira.util.ValueRange;
 
@@ -12,19 +12,19 @@ public class SetFactory {
 	}
 
 	public static SetInterface<String> createStringSet() {
-		throw new NotYetImplementedException("Task 08 about Sets not yet implemented");
+		return new SetImplementation<String>();
 	}
 
 	public static SetInterface<Integer> createIntegerSet() {
-		throw new NotYetImplementedException("Task 08 about Sets not yet implemented");
+		return new SetImplementation<Integer>();
 	}
 
 	public static SetInterface<Coder> createCoderSet() {
-		throw new NotYetImplementedException("Task 08 about Sets not yet implemented");
+		return new SetImplementation<Coder>();
 	}
 
 	public static SetInterface<ValueRange> createValueRangeSet() {
-		throw new NotYetImplementedException("Task 08 about Sets not yet implemented");
+		return new SetImplementation<ValueRange>();
 	}
 
 }
