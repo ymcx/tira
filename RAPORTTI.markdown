@@ -170,3 +170,27 @@ Nopea BST ja hajautustaulu olivat verrattavissa asteikoissa aikatehokkuudessa, j
 
 
 ## 09-TASK
+
+Tehtävässä toteutettava algoritmi oli tähän mennessä itselle tuntemattomin. Teoriaan tutustuminen syvällisemmin oli siis tarpeen. Oli taas vaihteeksi virkistävää päästä käyttämään Javan valmiiksi annettuja luokkia omien implementaatioiden sijaan, sillä niihin pystyi turvautumaan sellaisenaan. Varsin mukavaa oli jälleen kerran aikakompleksisuudeltaan yksinkertaisten funktioiden laatiminen, erityisesti suhteessa noihin hakualgoritmeihin ja niiden näennäiseen monimutkaisuuteen.
+
+Toteutukseni oikeellisuudesta en menisi takuuseen, sillä ainakin itse huomasin testien olevan puutteellisia omaan makuuni. Esimerkiksi Queue:n käyttäminen tehtävässä vaaditun PriorityQueuen sijaan saa testit läpäisemään ainakin omassa tapauksessani. Toisaalta on myös mahdollista, että olen hieman väärinymmärtänyt osia kirjoitetusta koodista.
+
+Funktioiden aikakompleksisuusluokat:
+
+- O(V+E): toString(), breadFirstSearch(), depthFirstSearch(), hasCycles(). Molemmat hakufunktiot joutuvat pahimmillaan käymään jokaisen graafin pisteen (V) ja näiden yhdistävän nuolen (E) läpi kertaalleen. hasCycles kutsuu itseään niin kauan, että ensimmäinen sykli on löydetty. Ennen tätä se joutuu käymään pisteen jokaisen naapurin ja näiden naapurit läpi, siis käytännössä samalla tyylillä BFS:n tapaan.
+
+- O(1): getVertices(), createVertexFor(), addEdge(), addDirectedEdge(), getEdges(). Jokainen näistä käy kommentoja läpi ilman sen kummempaa iteroimista. Joskaan getVertices:n kohdalla en ole täysin varma siitä, miten tämä luo uuden hajautustaulun annetusta listasta. En löytänyt tähän nopealla internethaulla mitään relevanttia vastausta, joten se jää nyt näiden muiden kanssa samaan luokkaan.
+
+- O(V): getVertexFor(), route(). getVertexFor joutuu sekä hitaalla, että nopealla implementaatiolla käymään listan pisteitä läpi. Erona tosin se, että uudella tavalla se tekee sen huomattavasti nopeammin läpi käyttäen hyödyksi elementin hashia. Vanha funktio (joka on jätetty tuohon koodiin kommentoituna) käy jokaisen alkion läpi varsin naiivisti. Uuden funktion nopeuteen tietysti vaikuttaa hash-funktion toteutuksen laatu sekä elementtien tyyppi. Route käy listan visit-alkioita läpi, kulkien näiden avulla ensimmäiseen visit-olioon asti.
+
+- O(V^2): disconnectedVertices(), isDisconnected(), shortestPathDijkstra(), shortestPathsFrom(). isDisconnected hyödyntää disconnectedVertices:iä, joka puolestaan joutuu ensitöikseen kutsumaan BFS:ää. Tämän tehtyään funktio käy läpi jokaisen listaan tallennetun pisteen kertaalleen tutkiakseen, onko olion listassa yhtään alkiota, jota ei löydetty BFS:llä. Jos on, niin funktio poistaa nämä hakufunktiolla löydetyt näistä ja lisää uuteen listaan kaikki jäljelle jääneet alkiot. Ehkä toteutukselle olisi huomattavasti parempi toteutusvaihtoehto esimerkiksi suoraan palauttamalla pistelista sen sijaan, että jokainen olio tulisi ensin lisätä uuteen, halutunlaiseen listaan.
+
+Käytin alkuu hashmappia, joten koitin sitten testata implementaation nopeutta hashtablella. Selkeää eroa en näiden väliltä löytänyt, mutta teorian mukaan hashmapin tulisi olla nopeampi. Näin ollen vaihdoin takaisin hashmappiin.
+
+Olin hätähousu ja ryhdyin heti vaihtamaan koodiani tehtävänannon mukaan. Tehtävän ratkaiseminen vastauksen näkemisen jälkeen on hieman vaikeaa. Oli miten oli, paranneltua tyyliä mainostettiin tehtävässä aika voimakkaasti, joka toki oli ansaittua testien mukaan. Nimittäin kymmenentuhannen koodarin lisääminen listaan vanhalla tavalla vei hieman yli kaksikymmentä sekuntia ja uudella tämä vei alle sata millisekuntia.
+
+Jos netistä löytämääni kaavaan on mitään luottamista, niin testattujen verkkojen tulisi olla harvoja. Seuraavan kaavan mukaan graafi on tiheä f(E,V) = (2E)/(V(V-1)), jos f(E,V) > 0.5. Nopealla matematiikalla noin jokaista pistettä kohtaan tulee olla viiva hieman alle joka neljänteen pisteeseen. Koodareiden tapauksessa siis tämä tarkoittaisi sitä, että tuhannella koodarilla tulisi olla jokaisella vähintään noin 250 kaveria tuosta joukosta. Tämähän ei siis pidä paikkaansa.
+
+Mappi on verrattain skaalautuva tietosäiliö ainakin tuohon matriisiin verrattuna. En näe mitään syytä tyytyä matriisiin, kun vaihtoehtona on avain-arvo-parien hyödyntäminen mapilla.
+
+Kuten yllä todettu, oli aikaisemmin tietorakenne huomattavan hidas ennen korjausta. Jokaisen listan pisteen läpikäyminen on hidasta, puhumattakaan saman toimenpiteen toteuttaminen lukuisia kertoja jokaiselle funktiokutsulle aina kasvavilla aineistoilla. Uudesta listasta arvon kalasteleminen hashilla on huomattavasti nopeampaa, sillä halutun arvon löytämiseksi ei tarvitse aina käydä samoja arvoja läpi.
