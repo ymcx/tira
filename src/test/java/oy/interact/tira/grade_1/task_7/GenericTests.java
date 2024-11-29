@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -21,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 
 import oy.interact.tira.factories.BSTFactory;
+import oy.interact.tira.model.Coder;
 import oy.interact.tira.util.Pair;
 import oy.interact.tira.util.TIRAKeyedOrderedContainer;
 
@@ -35,6 +35,7 @@ class GenericTests {
     static Pair<String, Integer> [] testArray;
     static int testIndex = 0;
     static Integer testValue;
+    static Coder testCoder;
     static boolean testResult;
     static Comparator<String> comparator = new Comparator<>() {
         @Override
@@ -169,27 +170,33 @@ class GenericTests {
     // @Timeout(value = 10, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
     @DisplayName("Test that tries to add identical values (not keys)")
     void testAddingIdenticalValues() {
-        if (bst == null) {
+        Comparator<String> ascComparator = new Comparator<String>() {
+            @Override
+            public int compare(String first, String second) {
+                return first.compareTo(second);
+            }
+        };
+        TIRAKeyedOrderedContainer<String, Coder> coderBST = BSTFactory.createBST(ascComparator);
+        if (coderBST == null) {
             System.out.println("======================================================");
             System.out.println("Not testing BST yet since it has not been implemented.");
             System.out.println("======================================================");
             fail("BSTFactory.createBST could not instantiate the TIRAKeyedOrderedContainer implementation (yet)");
             return;
         }
-        bst.clear();
-        String uuid1 = UUID.randomUUID().toString();
-        String uuid2 = UUID.randomUUID().toString();
-        assertDoesNotThrow(() -> bst.add(uuid1, 42), "Adding to BST must not throw");
-        assertDoesNotThrow(() -> bst.add(uuid2, 42), "Adding to BST must not throw");
-        assertEquals(1, bst.size(), "After trying to add two identical values (that are equal()), BST size must be one (1)");
-        assertDoesNotThrow(() -> testValue = bst.find(intValue -> intValue.equals(42)));
-        assertNotNull(testValue, "Value must be in the dictionary in this test");
-        assertEquals(42, testValue, "Added value should be in BST when adding the same value twice with different keys");
-        assertDoesNotThrow(() -> testValue = bst.get(uuid1), "get(K) should not throw even though key not in bst");
-        assertNull(testValue, "Value for this key must be null when it was erased by adding a duplicate value, with different key");
-        assertDoesNotThrow(() -> testValue = bst.get(uuid2), "get(K) should not throw when key is in bst");
-        assertNotNull(testValue, "Value for this key must not be null");
-        assertEquals(42, testValue, "Added value should be in BST when adding the equal value twice with different keys");
+        coderBST.clear();
+        Coder antti = new Coder("Antti", "Juustila", "secret");
+        Coder identicalAntti = new Coder(antti.getId());
+        identicalAntti.setFirstName("Antti");
+        identicalAntti.setLastName("Juustila");
+        identicalAntti.setPhoneNumber("555-1234 567");
+        assertDoesNotThrow(() -> coderBST.add(antti.getFullName(), antti), "Adding to BST must not throw");
+        assertDoesNotThrow(() -> coderBST.add(identicalAntti.getFullName(), identicalAntti), "Adding to BST must not throw");
+        assertEquals(1, coderBST.size(), "After trying to add two identical values (that are equal()), BST size must be one (1)");
+        assertDoesNotThrow(() -> testCoder = coderBST.find(coder -> coder.equals(identicalAntti)));
+        assertNotNull(testCoder, "Value must be in the dictionary in this test");
+        assertEquals(identicalAntti, testCoder, "Added value should be in BST when adding the same value twice with different keys");
+        assertEquals("555-1234 567", testCoder.getPhoneNumber(), "The last addded identical value must be in the BST.");
     }
 
     private <T extends Comparable<T>> boolean isSorted(Pair<String, Integer> [] array) {

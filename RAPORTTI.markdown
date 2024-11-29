@@ -147,6 +147,10 @@ Testien mukaan hitaassa BST:ssä noden hakeminen indeksin perusteella ja exportt
 
 Nopealla implementaatiolla tulosten seulominen oli hieman vaikeampaa sen nopeuden vuoksi. Näyttää kuitenkin siltä, että tässä elementin hakemiseen indeksin perusteella käytetty aika näyttää kulkevan käsi kädessä koodaritiedoston koon kanssa, eli lineaarisesti.
 
+Pieni lisäys tulevaisuudesta tähän tehtävään. Siitä on kulunut jo päälle kaksi kuukautta, kun viimeksi koskin tähän tehtävään. Kaikki muutkin tehtävät olin jo tehnyt päälle kuukausi sitten, mutta yllätyksekseni saamani sähköposti automaattitestien suorituksiksta herjasi yhdestä epäonnistuneesta testistä.
+
+No kuinka ollakaan, erratan mukaan testejä oltiin päivitetty kesken kurssin. En saanut Moodlelta tästä ilmoitusta. Koodissani oli virhe, siitä ei käy kiistäminen. Pidän sitä kuitenkin kertakaikkisen hyväksyttämättömänä, että keskellä kurssia testiohjelmia muutetaan noin vain ja erityisesti niin, että ne eivät ole yhteensopivia vanhojen kanssa. Kyseessähän ei ollut mikään kokeista tuttu yhden tehtävän pikku moka, vaan arvosanaan yksi vaadittu virhe. En siis olisi päässyt kurssista läpi, mikäli en olisi tuota yhtä sähköpostia sattunut vahingossa aukaisemaan.
+
 
 ## 08-TASK
 

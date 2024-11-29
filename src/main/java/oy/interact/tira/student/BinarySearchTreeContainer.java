@@ -102,7 +102,7 @@ public class BinarySearchTreeContainer<K extends Comparable<K>, V> implements TI
     TreeNode<K, V> node = root;
     while (true) {
       ++node.size;
-      if (node.value == value) {
+      if (node.value.equals(value)) {
         node.value = null;
         --size;
       }
